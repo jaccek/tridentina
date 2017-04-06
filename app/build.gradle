@@ -1,0 +1,53 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "com.github.jaccek.tridentina"
+        minSdkVersion 16
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_v"
+
+    compile "com.android.support:appcompat-v7:$support_library_v"
+
+    compile "com.mateuszkoslacz.moviper:moviper-rx:$moviper_v"
+    compile "com.mateuszkoslacz.moviper:moviper-viewstate:$moviper_v"
+
+    compile "io.reactivex.rxjava2:rxkotlin:$rx_kotlin_v"
+
+    compile "com.google.code.gson:gson:$gson_v"
+
+    testCompile "junit:junit:4.12"
+
+    testCompile "org.assertj:assertj-core:$assertj_v"
+
+    testCompile "org.mockito:mockito-core:$mockito_v"
+    testCompile("com.nhaarman:mockito-kotlin:$mockito_kotlin_v", {
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib'
+    })
+
+    androidTestCompile("com.android.support.test.espresso:espresso-core:$espresso_v", {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+}
+
+repositories {
+    mavenCentral()
+}

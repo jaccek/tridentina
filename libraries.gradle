@@ -1,0 +1,14 @@
+// here are versions of libraries used in project
+
+ext {
+    support_library_v = '25.3.1'
+
+    moviper_v = '2.0.0'
+    rx_kotlin_v = '2.0.0'
+    gson_v = '2.7'
+
+    assertj_v = '3.6.2'
+    mockito_v = '2.7.21'
+    mockito_kotlin_v = '1.4.0'
+    espresso_v = '2.2.2'
+}
