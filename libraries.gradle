@@ -6,6 +6,7 @@ ext {
     moviper_v = '2.0.0'
     rx_kotlin_v = '2.0.0'
     gson_v = '2.7'
+    dagger_v = '2.10'
 
     assertj_v = '3.6.2'
     mockito_v = '2.7.21'

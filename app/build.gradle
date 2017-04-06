@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 25
@@ -20,6 +21,10 @@ android {
     }
 }
 
+kapt {
+    generateStubs = true
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     
@@ -33,6 +38,9 @@ dependencies {
     compile "io.reactivex.rxjava2:rxkotlin:$rx_kotlin_v"
 
     compile "com.google.code.gson:gson:$gson_v"
+
+    compile "com.google.dagger:dagger:$dagger_v"
+    kapt "com.google.dagger:dagger-compiler:$dagger_v"
 
     testCompile "junit:junit:4.12"
 

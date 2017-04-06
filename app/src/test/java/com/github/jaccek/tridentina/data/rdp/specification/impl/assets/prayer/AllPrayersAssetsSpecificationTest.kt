@@ -3,6 +3,7 @@ package com.github.jaccek.tridentina.data.rdp.specification.impl.assets.prayer
 import android.content.res.AssetManager
 import com.github.jaccek.tridentina.data.entity.Prayer
 import com.github.jaccek.tridentina.data.rdp.repository.impl.assets.AssetsRepositoryException
+import com.github.jaccek.tridentina.testutils.getPrayer
 import com.google.gson.Gson
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.eq
@@ -25,11 +26,7 @@ class AllPrayersAssetsSpecificationTest {
 
     lateinit var specification: AllPrayersAssetsSpecification
 
-    val prayer = Prayer(
-            id = "test_id",
-            name = "test prayer",
-            text = "prayer text"
-    )
+    val prayer = getPrayer()
 
     @Before
     fun setup() {
