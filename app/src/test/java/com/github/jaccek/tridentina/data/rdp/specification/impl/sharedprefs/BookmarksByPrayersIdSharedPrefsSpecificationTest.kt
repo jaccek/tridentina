@@ -16,45 +16,53 @@ import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-class BookmarkByPrayerIdSharedPrefsSpecificationTest {
+class BookmarksByPrayersIdSharedPrefsSpecificationTest {
 
     @Mock
     lateinit var sharedPreferences: SharedPreferences
 
-    lateinit var specification: BookmarkByPrayerIdSharedPrefsSpecification
+    lateinit var specification: BookmarksByPrayersIdSharedPrefsSpecification
 
     @Before
     fun setup() {
-        specification = BookmarkByPrayerIdSharedPrefsSpecification()
+        specification = BookmarksByPrayersIdSharedPrefsSpecification()
     }
 
     @Test(expected = UninitializedPropertyAccessException::class)
-    fun testGetResults_withoutPrayerId() {
+    fun testGetResults_withoutPrayersId() {
         specification.getResults(sharedPreferences)
     }
 
     @Test
-    fun testGetResults_withPrayerId() {
-        val prayerId: PrayerId = "test"
+    fun testGetResults_withPrayersId() {
+        val prayersId: Collection<PrayerId> = listOf("test", "prayer")
         `when`(sharedPreferences.getBoolean(any(), any())).thenReturn(true)
 
-        val single = specification.withPrayerId(prayerId)
+        val single = specification.withPrayersId(prayersId)
                 .getResults(sharedPreferences)
 
-        verify(sharedPreferences).getBoolean(prayerId, false)
-        verifySingle(single, prayerId)
+        verifySingle(single, prayersId)
+        verifySharedPrefsCalls(prayersId)
     }
 
-    private fun verifySingle(single: Single<Collection<Bookmark>>, prayerId: PrayerId) {
+    private fun verifySharedPrefsCalls(prayersId: Collection<PrayerId>) {
+        for (id in prayersId) {
+            verify(sharedPreferences).getBoolean(id, false)
+        }
+    }
+
+    private fun verifySingle(single: Single<Collection<Bookmark>>, prayersId: Collection<PrayerId>) {
         val testObserver = TestObserver<Collection<Bookmark>>()
         single.subscribe(testObserver)
         testObserver.assertNoErrors()
-        testObserver.assertValue { verifyCollection(it, prayerId) }
+        testObserver.assertValue { verifyCollection(it, prayersId) }
     }
 
-    private fun verifyCollection(collection: Collection<Bookmark>, prayerId: PrayerId): Boolean {
-        assertThat(collection).hasSize(1)
-        assertThat(collection.first()).isEqualTo(Bookmark(prayerId, true))
+    private fun verifyCollection(collection: Collection<Bookmark>, prayersId: Collection<PrayerId>): Boolean {
+        assertThat(collection).hasSize(prayersId.size)
+        for ((index, item) in collection.withIndex()) {
+            assertThat(item).isEqualTo(Bookmark(prayersId.elementAt(index), true))
+        }
         return true
     }
 }

@@ -5,7 +5,7 @@ import com.github.jaccek.tridentina.data.entity.PrayerId
 import com.github.jaccek.tridentina.data.rdp.specification.base.Specification
 
 
-interface BookmarkByPrayerIdSpecification : Specification<Bookmark> {
+interface BookmarksByPrayersIdSpecification : Specification<Bookmark> {
 
-    fun withPrayerId(prayerId: PrayerId) : BookmarkByPrayerIdSpecification
+    fun withPrayersId(prayersId: Collection<PrayerId>) : BookmarksByPrayersIdSpecification
 }
