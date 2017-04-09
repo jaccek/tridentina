@@ -6,6 +6,8 @@ import com.github.jaccek.tridentina.di.module.PrayerAssetsRepositoryModule
 
 
 object DIProvider {
+    val PREFERENCES_NAME = "preferences"
+
     lateinit private var context: Context
 
     fun init(context: Context) {
@@ -20,5 +22,9 @@ object DIProvider {
 
     val assetManager by lazy {
         context.assets
+    }
+
+    val sharedPreferences by lazy {
+        context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
     }
 }

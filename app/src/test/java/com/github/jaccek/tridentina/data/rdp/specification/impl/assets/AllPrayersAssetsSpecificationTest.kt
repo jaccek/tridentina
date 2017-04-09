@@ -1,8 +1,9 @@
-package com.github.jaccek.tridentina.data.rdp.specification.impl.assets.prayer
+package com.github.jaccek.tridentina.data.rdp.specification.impl.assets
 
 import android.content.res.AssetManager
 import com.github.jaccek.tridentina.data.entity.Prayer
 import com.github.jaccek.tridentina.data.rdp.repository.impl.assets.AssetsRepositoryException
+import com.github.jaccek.tridentina.data.rdp.specification.impl.assets.AllPrayersAssetsSpecification
 import com.github.jaccek.tridentina.testutils.getPrayer
 import com.google.gson.Gson
 import com.nhaarman.mockito_kotlin.any

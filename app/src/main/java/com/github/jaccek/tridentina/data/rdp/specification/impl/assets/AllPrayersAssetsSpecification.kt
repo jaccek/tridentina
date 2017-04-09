@@ -1,4 +1,4 @@
-package com.github.jaccek.tridentina.data.rdp.specification.impl.assets.prayer
+package com.github.jaccek.tridentina.data.rdp.specification.impl.assets
 
 import android.content.res.AssetManager
 import com.github.jaccek.tridentina.data.entity.Prayer

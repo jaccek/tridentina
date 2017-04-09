@@ -1,5 +1,6 @@
 package com.github.jaccek.tridentina.data.rdp.repository.impl.assets
 
+import android.content.res.AssetManager
 import com.github.jaccek.tridentina.DIProviderRule
 import com.github.jaccek.tridentina.data.entity.Prayer
 import com.github.jaccek.tridentina.data.rdp.specification.impl.assets.AssetsSpecification
@@ -10,12 +11,12 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
+import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.Mockito.verify
+import org.mockito.MockitoAnnotations
 
-@RunWith(MockitoJUnitRunner::class)
 class PrayerAssetsRepositoryTest {
 
     @get:Rule
@@ -23,12 +24,14 @@ class PrayerAssetsRepositoryTest {
 
     @Mock
     lateinit var specification: AssetsSpecification<Prayer>
-
+    @Mock
+    lateinit var assetManager: AssetManager
+    @InjectMocks
     lateinit var repository: PrayerAssetsRepository
 
     @Before
     fun setup() {
-        repository = PrayerAssetsRepository()
+        MockitoAnnotations.initMocks(this)
     }
 
     @Test(expected = UnsupportedOperationException::class)
@@ -59,6 +62,7 @@ class PrayerAssetsRepositoryTest {
 
         val returnedSingle = repository.query(specification)
 
+        verify(specification).getResults(assetManager)
         assertThat(returnedSingle).isEqualTo(single)
     }
 }
