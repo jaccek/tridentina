@@ -39,10 +39,10 @@ internal class PrayerListInteractor : BaseRxInteractor(), PrayerListContract.Int
                     .withPrayersId(prayerIds)
 
     override fun addToBookmarks(prayer: Prayer) {
-        throw UnsupportedOperationException("not implemented")
+        bookmarkRepository.add(Bookmark(prayerId = prayer.id, isBookmark = true))
     }
 
     override fun removeFromBookmarks(prayer: Prayer) {
-        throw UnsupportedOperationException("not implemented")
+        bookmarkRepository.remove(Bookmark(prayerId = prayer.id, isBookmark = true))
     }
 }

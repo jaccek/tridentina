@@ -9,6 +9,7 @@ import com.github.jaccek.tridentina.data.rdp.specification.base.prayer.AllPrayer
 import com.github.jaccek.tridentina.testutils.getBookmark
 import com.github.jaccek.tridentina.testutils.getPrayer
 import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.argumentCaptor
 import com.nhaarman.mockito_kotlin.verify
 import io.reactivex.Single
 import io.reactivex.observers.TestObserver
@@ -84,5 +85,32 @@ class PrayerListInteractorTest {
     private fun verifyRepositoriesCalls() {
         verify(prayerRepository).query(any<AllPrayersSpecification>())
         verify(bookmarkRepository).query(any<BookmarksByPrayersIdSpecification>())
+    }
+
+    @Test
+    fun testAddToBookmarks() {
+        val prayer = getPrayer()
+
+        interactor.addToBookmarks(prayer)
+
+        val captor = argumentCaptor<Bookmark>()
+        verify(bookmarkRepository).add(captor.capture())
+        verifyCapturedBookmark(captor.firstValue, prayer)
+    }
+
+    @Test
+    fun testRemoveFromBookmarks() {
+        val prayer = getPrayer()
+
+        interactor.removeFromBookmarks(prayer)
+
+        val captor = argumentCaptor<Bookmark>()
+        verify(bookmarkRepository).remove(captor.capture())
+        verifyCapturedBookmark(captor.firstValue, prayer)
+    }
+
+    private fun verifyCapturedBookmark(capturedBookmark: Bookmark, prayer: Prayer) {
+        assertThat(capturedBookmark.prayerId).isEqualTo(prayer.id)
+        assertThat(capturedBookmark.isBookmark).isTrue()
     }
 }
