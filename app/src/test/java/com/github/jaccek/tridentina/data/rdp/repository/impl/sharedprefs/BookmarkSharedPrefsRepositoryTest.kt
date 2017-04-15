@@ -6,10 +6,13 @@ import com.github.jaccek.tridentina.DIProviderRule
 import com.github.jaccek.tridentina.data.entity.Bookmark
 import com.github.jaccek.tridentina.data.entity.PrayerId
 import com.github.jaccek.tridentina.data.rdp.specification.impl.sharedprefs.SharedPrefsSpecification
+import com.github.jaccek.tridentina.testutils.getBookmark
+import com.mateuszkoslacz.moviper.tests.rules.RxAndroidSchedulersOverrideRule
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.verify
 import io.reactivex.Single
-import org.assertj.core.api.Assertions.assertThat
+import io.reactivex.observers.TestObserver
+import io.reactivex.subjects.SingleSubject
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -17,13 +20,14 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
-import java.util.*
 
 @SuppressLint("CommitPrefEdits")
 class BookmarkSharedPrefsRepositoryTest {
 
     @get:Rule
     val diProviderRule = DIProviderRule()
+    @get:Rule
+    val rxAndroidRule = RxAndroidSchedulersOverrideRule()
 
     @Mock
     lateinit var sharedPrefs: SharedPreferences
@@ -86,12 +90,21 @@ class BookmarkSharedPrefsRepositoryTest {
 
     @Test
     fun testQuery() {
-        val single = Single.just<Collection<Bookmark>>(Collections.singletonList(bookmark))
-        `when`(specification.getResults(sharedPrefs)).thenReturn(single)
+        val subject = SingleSubject.create<Collection<Bookmark>>()
+        val collection = listOf(getBookmark())
+        `when`(specification.getResults(sharedPrefs)).thenReturn(subject)
 
         val returnedSingle = repository.query(specification)
+        subject.onSuccess(collection)
 
         verify(specification).getResults(sharedPrefs)
-        assertThat(returnedSingle).isEqualTo(single)
+        verifySingle(returnedSingle, collection)
+    }
+
+    private fun verifySingle(single: Single<Collection<Bookmark>>, collection: List<Bookmark>) {
+        val testObserver = TestObserver<Collection<Bookmark>>()
+        single.subscribe(testObserver)
+        testObserver.assertNoErrors()
+        testObserver.assertValue { it == collection }
     }
 }

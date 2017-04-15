@@ -6,6 +6,7 @@ import com.github.jaccek.tridentina.data.rdp.specification.base.Specification
 import com.github.jaccek.tridentina.data.rdp.specification.impl.sharedprefs.SharedPrefsSpecification
 import com.github.jaccek.tridentina.di.DIProvider
 import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 
 class BookmarkSharedPrefsRepository : Repository<Bookmark> {
 
@@ -24,5 +25,6 @@ class BookmarkSharedPrefsRepository : Repository<Bookmark> {
     override fun query(specification: Specification<Bookmark>): Single<Collection<Bookmark>> {
         val sharedPrefsSpecification = specification as SharedPrefsSpecification<Bookmark>
         return sharedPrefsSpecification.getResults(sharedPreferences)
+                .subscribeOn(Schedulers.computation())
     }
 }

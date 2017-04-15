@@ -1,9 +1,8 @@
 package com.github.jaccek.tridentina.data.rdp.specification.impl.assets
 
-import android.content.res.AssetManager
 import com.github.jaccek.tridentina.data.entity.Prayer
+import com.github.jaccek.tridentina.data.rdp.repository.impl.assets.AssetManagerWrapper
 import com.github.jaccek.tridentina.data.rdp.repository.impl.assets.AssetsRepositoryException
-import com.github.jaccek.tridentina.data.rdp.specification.impl.assets.AllPrayersAssetsSpecification
 import com.github.jaccek.tridentina.testutils.getPrayer
 import com.google.gson.Gson
 import com.nhaarman.mockito_kotlin.any
@@ -13,25 +12,25 @@ import io.reactivex.observers.TestObserver
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
+import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
-import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.MockitoAnnotations
 import java.io.ByteArrayInputStream
 
-@RunWith(MockitoJUnitRunner::class)
 class AllPrayersAssetsSpecificationTest {
 
     @Mock
-    lateinit var assetManager: AssetManager
+    lateinit var assetManager: AssetManagerWrapper
 
+    @InjectMocks
     lateinit var specification: AllPrayersAssetsSpecification
 
     val prayer = getPrayer()
 
     @Before
     fun setup() {
-        specification = AllPrayersAssetsSpecification()
+        MockitoAnnotations.initMocks(this)
     }
 
     @Test
@@ -47,10 +46,10 @@ class AllPrayersAssetsSpecificationTest {
     }
 
     private fun prepareAssetManager(fileNames: Array<String>, prayerAsString: String) {
-        `when`(assetManager.list(".")).thenReturn(fileNames)
+        `when`(assetManager.listFiles(".")).thenReturn(fileNames)
         for (filename in fileNames) {
             val prayerInputStream = ByteArrayInputStream(prayerAsString.toByteArray())
-            `when`(assetManager.open(eq(filename), any())).thenReturn(prayerInputStream)
+            `when`(assetManager.openFile(eq(filename), any())).thenReturn(prayerInputStream)
         }
     }
 
@@ -79,7 +78,7 @@ class AllPrayersAssetsSpecificationTest {
 
     @Test
     fun testGetResults_assetsNotFound() {
-        `when`(assetManager.list(".")).thenReturn(arrayOf())
+        `when`(assetManager.listFiles(".")).thenReturn(arrayOf())
 
         val single = specification.getResults(assetManager)
 

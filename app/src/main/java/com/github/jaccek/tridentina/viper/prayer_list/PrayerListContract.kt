@@ -18,6 +18,8 @@ interface PrayerListContract {
 
             fun setState(state: Int)
         }
+
+        fun  showError(error: Throwable)
     }
 
     interface Interactor : ViperRxInteractor {

@@ -34,8 +34,10 @@ dependencies {
 
     compile "com.mateuszkoslacz.moviper:moviper-rx:$moviper_v"
     compile "com.mateuszkoslacz.moviper:moviper-viewstate:$moviper_v"
+    debugCompile "com.mateuszkoslacz.moviper:moviper-test:$moviper_v"
 
     compile "io.reactivex.rxjava2:rxkotlin:$rx_kotlin_v"
+    compile "io.reactivex.rxjava2:rxandroid:$rx_android_v"
 
     compile "com.google.code.gson:gson:$gson_v"
 

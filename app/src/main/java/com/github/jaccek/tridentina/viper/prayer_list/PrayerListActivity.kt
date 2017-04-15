@@ -35,4 +35,8 @@ class PrayerListActivity : ViperViewStateAiPassiveActivity<
     override fun showPrayers(prayers: Collection<Prayer>) {
         throw UnsupportedOperationException("not implemented")
     }
+
+    override fun showError(error: Throwable) {
+        throw UnsupportedOperationException("not implemented")
+    }
 }
