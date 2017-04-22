@@ -2,6 +2,7 @@
 
 ext {
     support_library_v = '25.3.1'
+    constraint_layout_v = '1.0.2'
 
     moviper_v = '2.0.3'
     rx_kotlin_v = '2.0.0'

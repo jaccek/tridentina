@@ -30,7 +30,10 @@ dependencies {
     
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_v"
 
+    compile "com.android.support:design:$support_library_v"
+    compile "com.android.support:cardview-v7:$support_library_v"
     compile "com.android.support:appcompat-v7:$support_library_v"
+    compile "com.android.support.constraint:constraint-layout:$constraint_layout_v"
 
     compile "com.mateuszkoslacz.moviper:moviper-rx:$moviper_v"
     compile "com.mateuszkoslacz.moviper:moviper-viewstate:$moviper_v"
